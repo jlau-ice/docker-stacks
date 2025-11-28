@@ -7,6 +7,8 @@ services:
       - "5432:5432"
     volumes:
       - ./data/postgresql:/var/lib/postgresql/data
+      #- ./conf/postgresql.conf:/var/lib/postgresql/data/postgresql.conf
+      #- ./conf/pg_hba.conf:/var/lib/postgresql/data/pg_hba.conf
     environment:
       # POSTGRES_DB: postgres
       POSTGRES_USER: postgres
