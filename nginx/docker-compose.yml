@@ -1,0 +1,17 @@
+services:
+  nginx:
+    image: nginx:stable
+    ports:
+      - "80:80"
+      # - "443:443"
+    restart: unless-stopped
+    volumes:
+      # 1. 挂载主配置文件
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      # 2. 挂载从配置文件/虚拟主机配置目录
+      # 推荐使用 conf.d 目录，Docker 官方镜像默认会加载这里的 *.conf 文件
+      - ./conf.d:/etc/nginx/conf.d:ro
+      # 3. 挂载静态网站文件目录 (可选，如果你需要 Nginx 直接提供静态文件)
+      # - ./html:/usr/share/nginx/html:ro
+      # 4. 挂载日志文件（可选，将日志输出到宿主机）
+      # - ./logs/nginx:/var/log/nginx
