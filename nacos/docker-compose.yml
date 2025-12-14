@@ -1,0 +1,26 @@
+services:
+  nacos:
+    # 1. 镜像 (Image)
+    image: nacos/nacos-server:v2.1.0-slim
+    # 2. 容器名称 (Name)
+    container_name: nacos
+    # 3. 环境变量文件 (Env-file)
+    # 假设 custom.env 文件位于与 docker-compose.yml 文件相同的目录下
+    env_file:
+      - ./custom.env
+    # 4. 端口映射 (Ports)
+    # Nacos 2.x 版本通常需要 9848/9849 来支持 gRPC 协议
+    ports:
+      - "8848:8848" # Nacos HTTP 访问端口
+      - "9848:9848" # Nacos gRPC 客户端端口
+      - "9849:9849" # Nacos gRPC 服务端端口
+    # 5. 重启策略 (Restart Policy)
+    restart: always
+    # 6. 容器启动模式 (可选 - 对应 -d)
+    # 启动时使用 `docker compose up -d` 即可实现后台运行。
+    networks:
+      - infra-net
+
+networks:
+  infra-net:
+    external: true
