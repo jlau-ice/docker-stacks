@@ -16,9 +16,9 @@
 
 
 -- 导出 nacos 的数据库结构
-DROP DATABASE IF EXISTS `nacos`;
-CREATE DATABASE IF NOT EXISTS `nacos` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `nacos`;
+DROP DATABASE IF EXISTS `cloud_nacos`;
+CREATE DATABASE IF NOT EXISTS `cloud_nacos` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `cloud_nacos`;
 
 -- 导出  表 nacos.config_info 结构
 DROP TABLE IF EXISTS `config_info`;
