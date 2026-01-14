@@ -6,7 +6,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: "sxkj0818web"
     volumes:
-      - ./log:/var/lib/mysql
+      - ./log:/var/log/mysql
       - ./data:/var/lib/mysql
       - ./conf/my.cnf:/etc/my.cnf
     ports:
