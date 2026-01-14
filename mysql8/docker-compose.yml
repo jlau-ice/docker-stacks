@@ -3,12 +3,15 @@ services:
     container_name: mysql8
     image: mysql8:latest
     restart: always
+    # 指定以容器内的 mysql 用户运行，Podman 会处理好映射
+    user: "999:999" 
     environment:
       MYSQL_ROOT_PASSWORD: "sxkj0818web"
     volumes:
-      - ./log:/var/log/mysql
-      - ./data:/var/lib/mysql
-      - ./conf/my.cnf:/etc/my.cnf
+      # :Z 处理 SELinux，:U 处理用户权限
+      - ./log:/var/log/mysql:Z,U
+      - ./data:/var/lib/mysql:Z,U
+      - ./conf/my.cnf:/etc/my.cnf:Z
     ports:
       - "3308:3306"
     command:
