@@ -1,7 +1,7 @@
 services:
   mysql8:
     container_name: mysql8
-    image: mysql8:latest
+    image: mysql:8.0
     restart: always
     # 指定以容器内的 mysql 用户运行，Podman 会处理好映射
     user: "999:999" 
