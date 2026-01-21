@@ -2,11 +2,12 @@ services:
   pgvector:
     image: pgvector/pgvector:pg16
     container_name: pgvector
-    restart: unless-stopped
+    user: "999:999" 
+    restart: always
     ports:
       - "5432:5432"
     volumes:
-      - ./data/postgresql:/var/lib/postgresql/data
+      - ./data/postgresql:/var/lib/postgresql/data:Z,U
       #- ./conf/postgresql.conf:/var/lib/postgresql/data/postgresql.conf
       #- ./conf/pg_hba.conf:/var/lib/postgresql/data/pg_hba.conf
     environment:
