@@ -7,9 +7,9 @@ services:
       - "6380:6379" 
       - "18001:8001" 
     volumes:
-      - ./data/redis:/data
-      - ./config/redis-stack.conf:/redis-stack.conf:ro
-    command: ["redis-server", "/redis-stack.conf"]
+      - ./data/redis:/data:Z
+     # - ./config/redis-stack.conf:/redis-stack.conf:ro
+    # command: ["redis-server", "/redis-stack.conf"]
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 10s
