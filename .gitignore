@@ -57,3 +57,5 @@ minio/config
 */log
 neo4j/import
 neo4j/plugins
+
+jaeger/jaeger_data
