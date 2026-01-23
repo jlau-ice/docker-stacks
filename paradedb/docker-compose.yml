@@ -1,0 +1,22 @@
+services:
+  postgres:
+    image: paradedb/paradedb:v0.18.9-pg17
+    container_name: paradedb
+    user: "999:999" 
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=weknora
+    volumes:
+      - ./data:/var/lib/postgresql/data:Z,U
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER}"]
+      interval: 10s # 增加时间间隔
+      timeout: 10s # 增加超时时间
+      retries: 3 # 减少重试次数，让失败更快反馈
+      start_period: 30s # 给予初始启动更多时间
+    restart: always
+    # 添加停机时的优雅退出时间
+    stop_grace_period: 1m
