@@ -1,0 +1,20 @@
+services:
+  neo4j:
+    image: neo4j:latest
+    container_name: neo4j
+    restart: always
+    ports:
+      - "7474:7474"   # HTTP 浏览器端口
+      - "7687:7687"   # Bolt 协议端口（程序连接用）
+    volumes:
+      - ./data:/data:Z,U
+      - ./logs:/logs:Z,U
+      - ./import:/import:Z,U
+      - ./plugins:/plugins:Z,U
+    environment:
+      # 设置初始密码，默认用户名是 neo4j
+      # 修改下面的 password 为你自己的密码
+      - NEO4J_AUTH=neo4j/12345678
+      # 内存优化配置（可选）
+      - NEO4J_dbms_memory_heap_initial__size=512M
+      - NEO4J_dbms_memory_heap_max__size=1G
