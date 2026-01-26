@@ -2,12 +2,13 @@ services:
   redis-stack:
     image: redis/redis-stack:latest
     container_name: redis-stack
+    user: "999:999" 
     restart: always
     ports:
       - "6380:6379" 
       - "18001:8001" 
     volumes:
-      - ./data/redis:/data:Z
+      - ./data/redis:/data:Z,U
      # - ./config/redis-stack.conf:/redis-stack.conf:ro
     # command: ["redis-server", "/redis-stack.conf"]
     healthcheck:
