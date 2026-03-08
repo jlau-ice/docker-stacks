@@ -1,6 +1,6 @@
 services:
   neo4j:
-    image: neo4j:latest
+    image: neo4j:2025.10.1
     container_name: neo4j
     restart: always
     ports:
@@ -18,3 +18,7 @@ services:
       # 内存优化配置（可选）
       - NEO4J_dbms_memory_heap_initial__size=512M
       - NEO4J_dbms_memory_heap_max__size=1G
+      - NEO4J_apoc_export_file_enabled=true
+      - NEO4J_apoc_import_file_enabled=true
+      - NEO4J_apoc_import_file_use__neo4j__config=true
+      - NEO4JLABS_PLUGINS=["apoc"]
