@@ -1,0 +1,56 @@
+services:
+  namesrv:
+    image: apache/rocketmq:5.4.0
+    container_name: rmqnamesrv
+    restart: always
+    ports:
+      - ${NAMESRV_PORT:-9876}:9876 # NameServer 端口
+    volumes:
+      - ./data/namesrv/logs:/home/rocketmq/logs:Z,U
+    command: nameserver
+
+  broker:
+    image: apache/rocketmq:5.4.0
+    container_name: rmqbroker
+    restart: always
+    depends_on:
+      - namesrv
+    ports:
+      - ${BROKER_FAST_PORT:-10909}:10909 # FastRemoting 端口
+      - ${BROKER_LISTEN_PORT:-10911}:10911 # Broker 监听端口
+      - ${BROKER_HA_PORT:-10912}:10912 # HA 端口
+    environment:
+      - NAMESRV_ADDR=namesrv:9876
+    volumes:
+      - ./data/broker/logs:/home/rocketmq/logs:Z,U
+      - ./data/broker/store:/home/rocketmq/store:Z,U
+      - ./data/broker/conf/broker.conf:/home/rocketmq/broker.conf:Z,U
+    command: broker -c /home/rocketmq/broker.conf
+
+  proxy:
+    image: apache/rocketmq:5.4.0
+    container_name: rmqproxy
+    restart: always
+    depends_on:
+      - broker
+      - namesrv
+    ports:
+      - ${PROXY_REMOTING_PORT:-8080}:8080 # Proxy Remoting 端口
+      - ${PROXY_GRPC_PORT:-8081}:8081     # Proxy gRPC 端口
+    environment:
+      - NAMESRV_ADDR=namesrv:9876
+    volumes:
+      - ./data/proxy/logs:/home/rocketmq/logs:Z,U
+      - ./data/proxy/conf/rmq-proxy.json:/home/rocketmq/rmq-proxy.json:Z,U
+    command: ./mqproxy -pc /home/rocketmq/rmq-proxy.json
+
+  dashboard:
+    image: apacherocketmq/rocketmq-dashboard:latest
+    container_name: rmqdashboard
+    restart: always
+    depends_on:
+      - namesrv
+    ports:
+      - ${DASHBOARD_PORT:-8082}:8082 # Dashboard Web UI
+    environment:
+      - JAVA_OPTS=-Drocketmq.namesrv.addr=namesrv:9876
